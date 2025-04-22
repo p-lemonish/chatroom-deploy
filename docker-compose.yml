@@ -1,8 +1,8 @@
 services:
   backend:
     build:
-      context: .
-      dockerfile: chatroom-go/Dockerfile
+      context: ./chatroom-go
+      dockerfile: Dockerfile
     container_name: chatroom-backend
     ports:
       - "8080:8080"
@@ -11,8 +11,8 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: chatroom-react/Dockerfile
+      context: ./chatroom-react
+      dockerfile: Dockerfile
     container_name: chatroom-frontend
     ports:
       - "80:80"
@@ -24,4 +24,3 @@ services:
 networks:
   chatnet:
     driver: bridge
-
