@@ -7,13 +7,11 @@ services:
     ports:
       - "${HTTP_PORT}:80"
     depends_on: [frontend, backend]
-    networks: [chatnet]
 
   backend:
     build: ./chatroom-go
     environment:
       - ALLOWED_ORIGIN=http://${DOMAIN}
-    networks: [chatnet]
 
   frontend:
     build:
@@ -21,5 +19,3 @@ services:
       args:
         - VITE_API_BASE=${API_PATH}
         - VITE_WS_PATH=${WS_PATH}
-    networks: [chatnet]
-
