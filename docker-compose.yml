@@ -1,26 +1,25 @@
 services:
-  backend:
-    build:
-      context: ./chatroom-go
-      dockerfile: Dockerfile
-    container_name: chatroom-backend
+  nginx:
+    image: nginx:alpine
+    container_name: chatroom-proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - "8080:8080"
-    networks:
-      - chatnet
+      - "${HTTP_PORT}:80"
+    depends_on: [frontend, backend]
+    networks: [chatnet]
+
+  backend:
+    build: ./chatroom-go
+    environment:
+      - ALLOWED_ORIGIN=http://${DOMAIN}
+    networks: [chatnet]
 
   frontend:
     build:
       context: ./chatroom-react
-      dockerfile: Dockerfile
-    container_name: chatroom-frontend
-    ports:
-      - "80:80"
-    networks:
-      - chatnet
-    depends_on:
-      - backend
+      args:
+        - VITE_API_BASE=${API_PATH}
+        - VITE_WS_PATH=${WS_PATH}
+    networks: [chatnet]
 
-networks:
-  chatnet:
-    driver: bridge

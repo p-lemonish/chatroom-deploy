@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build:
+      context: ./chatroom-react
+      dockerfile: Dockerfile
+    command: sh -c "npm install && npm run dev -- --host"
+    volumes:
+      - ./chatroom-react:/app
+      - /app/node_modules
+    environment:
+      VITE_API_BASE=/api
+      VITE_WS_PATH=/ws
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./chatroom-go
+      dockerfile: Dockerfile
+    command: sh -c "go run ."
+    volumes:
+      - ./chatroom-go:/app
+    environment:
+      ALLOWED_ORIGIN=http://localhost:5173
+    ports:
+      - "8080:8080"
+
+  nginx:
+    profiles: ["prod"]
+
