@@ -1,6 +1,0 @@
-[submodule "chatroom-go"]
-	path = chatroom-go
-	url = https://github.com/p-lemonish/chatroom-go.git
-[submodule "chatroom-react"]
-	path = chatroom-react
-	url = https://github.com/p-lemonish/chatroom-react.git
