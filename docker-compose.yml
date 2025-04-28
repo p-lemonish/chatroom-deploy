@@ -16,6 +16,3 @@ services:
   frontend:
     build:
       context: ./chatroom-react
-      args:
-        - VITE_API_BASE=${API_PATH}
-        - VITE_WS_PATH=${WS_PATH}
